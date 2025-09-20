@@ -111,8 +111,8 @@ implements net.fabricmc.api.ModInitializer
             ObjectMapper mapper = new ObjectMapper();
             if (created)
             {
-                config.put(CONFIG_KEY_SWAP_KEY, true);
-                config.put(CONFIG_ON_EMPTY_KEY, true);
+                config.put(CONFIG_KEY_SWAP_KEY, true );
+                config.put(CONFIG_ON_EMPTY_KEY, false);
                 mapper.writeValue(configFile, config);
             }
             else
@@ -129,7 +129,7 @@ implements net.fabricmc.api.ModInitializer
                 if (!config.containsKey(CONFIG_ON_EMPTY_KEY))
                 {
                     invalid = true;
-                    config.put(CONFIG_ON_EMPTY_KEY, true);
+                    config.put(CONFIG_ON_EMPTY_KEY, false);
                 }
                 if (invalid)
                 {
