@@ -1,0 +1,40 @@
+{
+    "schemaVersion" : 1,
+    "id"            : "toasters-bundle-keybind-fix-mod",
+    "version"       : "0.1.0",
+    "name"          : "DivideByToaster's Bundle Keybind-Fix Mod",
+    "description"   : "Reverses certain clicks for bundles in-inventory.",
+    "icon"          : "icon.png",
+
+    "contact":
+    {
+        "email"    : "dividebytoaster@protonmail.com",
+        "homepage" : "https://github.com/DivideByToaster/Toasters-Bundle-Keybind-Fix-Mod",
+        "sources"  : "https://github.com/DivideByToaster/Toasters-Bundle-Keybind-Fix-Mod",
+        "issues"   : "https://github.com/DivideByToaster/Toasters-Bundle-Keybind-Fix-Mod/issues"
+    },
+    "authors":
+    [
+        "DivideByToaster"
+    ],
+    "license" : "MIT",
+
+    "environment": "*",
+    "entrypoints":
+    {
+        "fabric-datagen" : ["net.dividebytoaster.ToastersBundleKeybindFixMod.client.ModDataGenerator"],
+        "client"         : ["net.dividebytoaster.ToastersBundleKeybindFixMod.client.ModClient"],
+        "modmenu"        : ["net.dividebytoaster.ToastersBundleKeybindFixMod.client.ModMenu"],
+        "main"           : ["net.dividebytoaster.ToastersBundleKeybindFixMod.ModMain"]
+    },
+    "mixins":
+    [
+        "toasters-bundle-keybind-fix-mod.mixins.json"
+    ],
+    "depends":
+    {
+        "fabricloader" : ">=${fabric_loader_version}",
+        "fabric"       : "*",
+        "minecraft"    : ">=${minecraft_version}"
+    }
+}
