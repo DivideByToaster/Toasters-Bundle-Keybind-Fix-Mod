@@ -1,7 +1,7 @@
 {
     "schemaVersion" : 1,
     "id"            : "toasters-bundle-keybind-fix-mod",
-    "version"       : "0.1.0",
+    "version"       : "0.2.0",
     "name"          : "DivideByToaster's Bundle Keybind-Fix Mod",
     "description"   : "Reverses certain clicks for bundles in-inventory.",
     "icon"          : "icon.png",

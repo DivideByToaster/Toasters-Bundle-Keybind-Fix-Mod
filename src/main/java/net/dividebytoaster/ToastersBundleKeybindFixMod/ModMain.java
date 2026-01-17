@@ -2,6 +2,8 @@ package net.dividebytoaster.ToastersBundleKeybindFixMod;
 
 /// Imports - Java
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -12,9 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /// Imports - JSON
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.MapType;
-import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 /// Imports - Fabric
 import net.fabricmc.loader.api.FabricLoader;
@@ -96,6 +97,27 @@ implements net.fabricmc.api.ModInitializer
         return config_dir.resolve("bundle.json").toFile();
     }
 
+    private static HashMap<String, Boolean> readConfig(File configFile)
+    throws IOException
+    {
+        HashMap<String, Boolean> config = new HashMap<>();
+        JsonReader configReader = new JsonReader(new FileReader(configFile));
+        configReader.beginObject();
+        while (configReader.hasNext())
+            config.put(configReader.nextName(), configReader.nextBoolean());
+        return config;
+    }
+
+    private static void writeConfig(File configFile, Map<String, Boolean> config)
+    throws IOException
+    {
+        JsonWriter configWriter = new JsonWriter(new FileWriter(configFile));
+        configWriter.beginObject();
+        for (String key : config.keySet())
+            configWriter.name(key).value(config.get(key));
+        configWriter.endObject();
+    }
+
     @Unique
     private static HashMap<String, Boolean> initConfig()
     {
@@ -108,17 +130,15 @@ implements net.fabricmc.api.ModInitializer
         {
             created = configFile.createNewFile();
 
-            ObjectMapper mapper = new ObjectMapper();
             if (created)
             {
                 config.put(CONFIG_KEY_SWAP_KEY, true );
                 config.put(CONFIG_ON_EMPTY_KEY, false);
-                mapper.writeValue(configFile, config);
+                writeConfig(configFile, config);
             }
             else
             {
-                MapType type = TypeFactory.defaultInstance().constructMapType(HashMap.class, String.class, Boolean.class);
-                config = mapper.readValue(configFile, type);
+                config = readConfig(configFile);
 
                 boolean invalid = false;
                 if (!config.containsKey(CONFIG_KEY_SWAP_KEY))
@@ -133,7 +153,7 @@ implements net.fabricmc.api.ModInitializer
                 }
                 if (invalid)
                 {
-                    mapper.writeValue(configFile, config);
+                    writeConfig(configFile, config);
                 }
             }
             CONFIG_ERROR = false;
@@ -166,8 +186,7 @@ implements net.fabricmc.api.ModInitializer
         File configFile = getConfigFile();
         try
         {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.writeValue(configFile, CONFIG);
+            writeConfig(configFile, CONFIG);
         }
         catch (IOException e)
         {
